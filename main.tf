@@ -47,7 +47,7 @@ module "eks" {
   worker_groups_launch_template = [
     {
       name                    = "spot-1"
-      override_instance_types = ["m5.large", "m5a.large", "m5d.large", "m5ad.large"]
+      override_instance_types = ["t2.micro"]
       spot_instance_pools     = 4
       asg_max_size            = 5
       asg_desired_capacity    = 5
@@ -65,10 +65,10 @@ module "eks" {
   node_groups = {
     example = {
       desired_capacity = 1
-      max_capacity     = 10
+      max_capacity     = 3
       min_capacity     = 1
 
-      instance_types = ["t3.large"]
+      instance_types = ["t2.micro"]
       capacity_type  = "SPOT"
       k8s_labels = {
         Environment = "test"
@@ -147,27 +147,27 @@ module "eks" {
   }
 }
 
-# ################################################################################
-# # Disabled creation
-# ################################################################################
+################################################################################
+# Disabled creation
+################################################################################
 
-# module "disabled_eks" {
-#   source = "../.."
+module "disabled_eks" {
+  source = "../.."
 
-#   create_eks = false
-# }
+  create_eks = false
+}
 
-# module "disabled_fargate" {
-#   source = "../../modules/fargate"
+module "disabled_fargate" {
+  source = "../../modules/fargate"
 
-#   create_fargate_pod_execution_role = false
-# }
+  create_fargate_pod_execution_role = false
+}
 
-# module "disabled_node_groups" {
-#   source = "../../modules/node_groups"
+module "disabled_node_groups" {
+  source = "../../modules/node_groups"
 
-#   create_eks = false
-# }
+  create_eks = false
+}
 
 ################################################################################
 # Kubernetes provider configuration
