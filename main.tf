@@ -151,23 +151,23 @@ module "eks" {
 # Disabled creation
 ################################################################################
 
-module "disabled_eks" {
-  source = "terraform-aws-modules/eks/aws"
+# module "disabled_eks" {
+#   source = "terraform-aws-modules/eks/aws"
 
-  create_eks = false
-}
+#   create_eks = false
+# }
 
-module "disabled_fargate" {
-  source = "terraform-aws-modules/eks/aws/modules/fargate"
+# module "disabled_fargate" {
+#   source = "terraform-aws-modules/eks/aws/modules/fargate"
 
-  create_fargate_pod_execution_role = false
-}
+#   create_fargate_pod_execution_role = false
+# }
 
-module "disabled_node_groups" {
-  source = "terraform-aws-modules/eks/aws/modules/node_groups"
+# module "disabled_node_groups" {
+#   source = "terraform-aws-modules/eks/aws/modules/node_groups"
 
-  create_eks = false
-}
+#   create_eks = false
+# }
 
 ################################################################################
 # Kubernetes provider configuration
