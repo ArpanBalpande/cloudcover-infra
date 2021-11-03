@@ -1,6 +1,6 @@
 locals {
   name            = "cloudcover-${random_string.suffix.result}"
-  cluster_version = "1.20"
+  cluster_version = "1.21"
   region          = "eu-west-1"
 }
 
@@ -16,12 +16,9 @@ module "eks" {
 
   vpc_id          = module.vpc.vpc_id
   subnets         = [module.vpc.private_subnets[0], module.vpc.public_subnets[1]]
-  fargate_subnets = [module.vpc.private_subnets[2]]
 
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
-
-
 
   worker_additional_security_group_ids = [aws_security_group.all_worker_mgmt.id]
 
@@ -29,17 +26,17 @@ module "eks" {
   worker_groups = [
     {
       name                          = "worker-group-1"
-      instance_type                 = "t3.small"
+      instance_type                 = "t2.micro"
       additional_userdata           = "echo foo bar"
       asg_desired_capacity          = 2
       additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
     },
     {
       name                          = "worker-group-2"
-      instance_type                 = "t3.medium"
+      instance_type                 = "t2.micro"
       additional_userdata           = "echo foo bar"
-      additional_security_group_ids = [aws_security_group.worker_group_mgmt_two.id]
       asg_desired_capacity          = 1
+      additional_security_group_ids = [aws_security_group.worker_group_mgmt_two.id]
     },
   ]
 
@@ -48,7 +45,7 @@ module "eks" {
     {
       name                    = "spot-1"
       override_instance_types = ["t2.micro"]
-      spot_instance_pools     = 4
+      spot_instance_pools     = 1
       asg_max_size            = 5
       asg_desired_capacity    = 5
       kubelet_extra_args      = "--node-labels=node.kubernetes.io/lifecycle=spot"
@@ -91,28 +88,6 @@ module "eks" {
     }
   }
 
-  # Fargate
-  fargate_profiles = {
-    default = {
-      name = "default"
-      selectors = [
-        {
-          namespace = "kube-system"
-          labels = {
-            k8s-app = "kube-dns"
-          }
-        },
-        {
-          namespace = "default"
-        }
-      ]
-
-      tags = {
-        Owner = "test"
-      }
-    }
-  }
-
   # AWS Auth (kubernetes_config_map)
   map_roles = [
     {
@@ -146,28 +121,6 @@ module "eks" {
     GithubOrg  = "terraform-aws-modules"
   }
 }
-
-################################################################################
-# Disabled creation
-################################################################################
-
-# module "disabled_eks" {
-#   source = "terraform-aws-modules/eks/aws"
-
-#   create_eks = false
-# }
-
-# module "disabled_fargate" {
-#   source = "terraform-aws-modules/eks/aws/modules/fargate"
-
-#   create_fargate_pod_execution_role = false
-# }
-
-# module "disabled_node_groups" {
-#   source = "terraform-aws-modules/eks/aws/modules/node_groups"
-
-#   create_eks = false
-# }
 
 ################################################################################
 # Kubernetes provider configuration
