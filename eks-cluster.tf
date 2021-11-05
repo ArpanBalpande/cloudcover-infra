@@ -37,48 +37,14 @@ module "eks" {
     }
   ]
 
-   node_groups_defaults = {
-    ami_type  = "AL2_x86_64"
-    disk_size = 50
-  }
-
-  node_groups = {
-    example = {
-      desired_capacity = 1
-      max_capacity     = 3
-      min_capacity     = 1
-
-      instance_types = ["t2.small"]
-      capacity_type  = "SPOT"
-      k8s_labels = {
-        Environment = "test"
-        GithubRepo  = "terraform-aws-eks"
-        GithubOrg   = "terraform-aws-modules"
-      }
-      additional_tags = {
-        ExtraTag = "example"
-      }
-      taints = [
-        {
-          key    = "dedicated"
-          value  = "gpuGroup"
-          effect = "NO_SCHEDULE"
-        }
-      ]
-      update_config = {
-        max_unavailable_percentage = 50 # or set `max_unavailable`
-      }
-    }
-  }
-
   # AWS Auth (kubernetes_config_map)
-  map_roles = [
-    {
-      rolearn  = "arn:aws:iam::66666666666:role/role1"
-      username = "role1"
-      groups   = ["system:masters"]
-    },
-  ]
+  # map_roles = [
+  #   {
+  #     rolearn  = "arn:aws:iam::66666666666:role/role1"
+  #     username = "role1"
+  #     groups   = ["system:masters"]
+  #   },
+  # ]
 
   map_users = [
     {
