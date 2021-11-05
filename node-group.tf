@@ -3,7 +3,7 @@ resource "aws_eks_node_group" "example" {
   node_group_name = "example"
   node_role_arn   = aws_iam_role.example.arn
   #   subnet_ids      = aws_subnet.example[*].id 
-  subnet_ids = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
+  subnet_ids = [module.vpc.public_subnets[0], module.vpc.public_subnets[1]]
 
   scaling_config {
     desired_size = 1
