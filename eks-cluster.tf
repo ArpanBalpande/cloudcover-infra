@@ -1,5 +1,5 @@
 locals {
-  name            = "cloudcover-${random_string.suffix.result}"
+  name            = "cloudcover"
   cluster_version = "1.21"
   region          = "eu-west-1"
 }
@@ -71,11 +71,11 @@ module "eks" {
   }
 }
 
-################################################################################
-# Supporting resources
-################################################################################
+# ################################################################################
+# # Supporting resources
+# ################################################################################
 
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-}
+# resource "random_string" "suffix" {
+#   length  = 8
+#   special = false
+# }
