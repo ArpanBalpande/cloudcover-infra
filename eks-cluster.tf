@@ -1,7 +1,7 @@
 locals {
   name            = "cloudcover-${random_string.suffix.result}"
   cluster_version = "1.21"
-  region          = "eu-west-1"
+  region          = "eu-west-2"
 }
 
 ################################################################################
