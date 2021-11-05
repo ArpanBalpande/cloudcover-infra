@@ -38,30 +38,24 @@ module "eks" {
   ]
 
   # AWS Auth (kubernetes_config_map)
-  map_roles = [
-    {
-      rolearn  = "arn:aws:iam::66666666666:role/role1"
-      username = "role1"
-      groups   = ["system:masters"]
-    },
-  ]
+  # map_roles = [
+  #   {
+  #     rolearn  = "arn:aws:iam::66666666666:role/role1"
+  #     username = "role1"
+  #     groups   = ["system:masters"]
+  #   },
+  # ]
 
   map_users = [
     {
-      userarn  = "arn:aws:iam::66666666666:user/user1"
+      userarn  = "arn:aws:iam::847370586410:user/arpan.balpande"
       username = "user1"
       groups   = ["system:masters"]
-    },
-    {
-      userarn  = "arn:aws:iam::66666666666:user/user2"
-      username = "user2"
-      groups   = ["system:masters"]
-    },
+    }
   ]
 
   map_accounts = [
-    "777777777777",
-    "888888888888",
+    "847370586410"
   ]
 
   tags = {
