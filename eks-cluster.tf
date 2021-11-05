@@ -30,21 +30,21 @@ module "eks" {
   worker_groups = [
     {
       name                          = "worker-group-1"
-      instance_type                 = "t2.micro"
+      instance_type                 = "t2.small"
       additional_userdata           = "echo foo bar"
-      asg_desired_capacity          = 2
+      asg_desired_capacity          = 1
       additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
     }
   ]
 
   # AWS Auth (kubernetes_config_map)
-  # map_roles = [
-  #   {
-  #     rolearn  = "arn:aws:iam::66666666666:role/role1"
-  #     username = "role1"
-  #     groups   = ["system:masters"]
-  #   },
-  # ]
+  map_roles = [
+    {
+      rolearn  = "arn:aws:iam::66666666666:role/role1"
+      username = "role1"
+      groups   = ["system:masters"]
+    },
+  ]
 
   map_users = [
     {
